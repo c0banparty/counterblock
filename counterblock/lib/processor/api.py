@@ -18,6 +18,7 @@ import calendar
 from gevent import wsgi
 import grequests
 import flask
+from flask_cors import CORS
 import jsonrpc
 import pymongo
 
@@ -39,6 +40,7 @@ def serve_api():
     # whatever data they need
 
     app = flask.Flask(__name__)
+    CORS(app)
     assert config.mongo_db
     tx_logger = logging.getLogger("transaction_log")  # get transaction logger
 
