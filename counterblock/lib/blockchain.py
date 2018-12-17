@@ -43,15 +43,18 @@ def get_btc_supply(normalize=False, at_block_index=None):
     block_count = config.state['my_latest_block']['block_index'] if at_block_index is None else at_block_index
     blocks_remaining = block_count
     total_supply = 0
-    reward = 50.0
-    while blocks_remaining > 0:
-        if blocks_remaining >= 210000:
-            blocks_remaining -= 210000
-            total_supply += 210000 * reward
-            reward /= 2
+
+    issue_prices = (22000, 0, 2, 4, 6, 8, 4)
+    issue_blocks = (1000, 739125, 985500, 1231875, 1478250, 9358687, 9358688)
+
+    low = 0
+    for price, threshold in zip(issue_prices, issue_blocks):
+        if low < blocks_remaining and blocks_remaining <= threshold:
+            total_supply = total_supply + (blocks_remaining - low) * price
+            break
         else:
-            total_supply += (blocks_remaining * reward)
-            blocks_remaining = 0
+            total_supply = total_supply + (threshold - low) * price
+        low = threshold
 
     return total_supply if normalize else int(total_supply * config.UNIT)
 
