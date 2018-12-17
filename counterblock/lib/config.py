@@ -42,6 +42,11 @@ DEFAULT_BACKEND_PORT = 3882
 DEFAULT_LOG_SIZE_KB = 20000
 DEFAULT_LOG_NUM_FILES = 5
 
+REGTEST_BLOCK_FIRST = 101
+TESTNET_BLOCK_FIRST = 101
+MAINNET_BLOCK_FIRST = 1630117
+
+
 ##
 # STATE
 ##
@@ -92,11 +97,11 @@ def init_base(args):
     # first block
     global BLOCK_FIRST
     if TESTNET:
-        BLOCK_FIRST = 310000
+        BLOCK_FIRST = TESTNET_BLOCK_FIRST
     elif REGTEST:
-        BLOCK_FIRST = 101
+        BLOCK_FIRST = REGTEST_BLOCK_FIRST
     else:
-        BLOCK_FIRST = 278270
+        BLOCK_FIRST = MAINNET_BLOCK_FIRST
 
     global LATEST_BLOCK_INIT
     LATEST_BLOCK_INIT = {'block_index': BLOCK_FIRST, 'block_time': None, 'block_hash': None}
