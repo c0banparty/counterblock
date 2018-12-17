@@ -59,6 +59,8 @@ CONFIG_ARGS = [
     [('--mongodb-database',), {'help': 'the mongodb database to connect to'}],
     [('--mongodb-user',), {'help': 'the optional username used to communicate with mongodb'}],
     [('--mongodb-password',), {'help': 'the optional password used to communicate with mongodb'}],
+    [('--mongodb-replicaset',), {'help': 'the optional replicaset name with mongodb'}],
+    [('--mongodb-replicaaddreses',), {'help': 'the optional replicaset addresses with mongodb'}],
 
     [('--redis-connect',), {'help': 'the hostname of the redis server to use for caching (if enabled'}],
     [('--redis-port',), {'type': int, 'help': 'the port used to connect to the redis server for caching (if enabled)'}],

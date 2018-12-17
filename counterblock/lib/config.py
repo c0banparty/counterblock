@@ -236,6 +236,18 @@ def init_base(args):
     else:
         MONGODB_PASSWORD = None
 
+    global MONGODB_REPLICASET
+    if args.mongodb_replicaset:
+        MONGODB_REPLICASET = args.mongodb_replicaset
+    else:
+        MONGODB_REPLICASET = None
+
+    global MONGODB_REPLICA_ADDRESES
+    if args.mongodb_replicaaddreses:
+        MONGODB_REPLICA_ADDRESES = args.mongodb_replicaaddreses
+    else:
+        MONGODB_REPLICA_ADDRESES = None
+
     # redis-related
     global REDIS_CONNECT
     if args.redis_connect:

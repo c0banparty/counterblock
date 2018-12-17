@@ -11,7 +11,17 @@ logger = logging.getLogger(__name__)
 def get_connection():
     """Connect to mongodb, returning a connection object"""
     logger.info("Connecting to mongoDB backend ...")
-    mongo_client = pymongo.MongoClient(config.MONGODB_CONNECT, config.MONGODB_PORT)
+    # mongodb-mongodb-replicaset-0, 1, 2
+    if config.MONGODB_REPLICASET and config.MONGODB_REPLICA_ADDRESES:
+        # 'mongodb://localhost:27017,localhost:27018/?replicaSet=foo'
+        mongo_addresses = config.MONGODB_REPLICA_ADDRESES.replace('__',',')
+        mongo_source = "mongodb://{}/?replicaSet={}".format(
+            mongo_addresses,
+            config.MONGODB_REPLICASET
+        )
+        mongo_client = pymongo.MongoClient(mongo_source)
+    else:
+        mongo_client = pymongo.MongoClient(config.MONGODB_CONNECT, config.MONGODB_PORT)
     mongo_db = mongo_client[config.MONGODB_DATABASE]  # will create if it doesn't exist
     if config.MONGODB_USER and config.MONGODB_PASSWORD:
         if not mongo_db.authenticate(config.MONGODB_USER, config.MONGODB_PASSWORD):
