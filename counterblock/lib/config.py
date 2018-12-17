@@ -3,7 +3,7 @@
 ##
 # CONSTANTS
 ##
-VERSION = "1.4.0"  # should keep up with counterblockd repo's release tag
+VERSION = "1.4.0+C0BAN001"  # should keep up with counterblockd repo's release tag
 
 DB_VERSION = 24  # a db version increment will cause counterblockd to rebuild its database off of counterpartyd
 
@@ -21,8 +21,8 @@ BTC = 'RYO'
 XBTC = 'XRYO'
 XCP = 'XCB'
 
-BTC_NAME = "Bitcoin"
-XCP_NAME = "Counterparty"
+BTC_NAME = "c0ban"
+XCP_NAME = "c0banparty"
 APP_NAME = "counterblock"
 COUNTERPARTY_APP_NAME = XCP_NAME.lower()
 
