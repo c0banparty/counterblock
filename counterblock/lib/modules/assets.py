@@ -294,7 +294,7 @@ def get_assets_info(assetsList):
             'divisible': tracked_asset['divisible'],
             'locked': tracked_asset['locked'],
             'supply': tracked_asset['total_issued'],
-            'description': tracked_asset['description'],
+            'description': tracked_asset['description'] if 'description' in tracked_asset else None,
             'issuer': tracked_asset['owner']})
     return assets_info
 
