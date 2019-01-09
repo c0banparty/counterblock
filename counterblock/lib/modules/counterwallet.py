@@ -90,7 +90,7 @@ def is_ready():
     if we actually return data from this function, it should always be true. (may change this behaviour later)"""
 
     ip = flask.request.headers.get('X-Real-Ip', flask.request.remote_addr)
-    country = module_config['GEOIP'].country_code_by_addr(ip)
+    # country = module_config['GEOIP'].country_code_by_addr(ip)
     return {
         'caught_up': blockfeed.fuzzy_is_caught_up(),
         'last_message_index': config.state['last_message_index'],
@@ -99,7 +99,7 @@ def is_ready():
         'testnet': config.TESTNET,
         'regtest': config.REGTEST,
         'ip': ip,
-        'country': country,
+        # 'country': country,
         'quote_assets': config.QUOTE_ASSETS,
         'quick_buy_enable': True if module_config['VENDING_MACHINE_PROVIDER'] is not None else False
     }
@@ -109,11 +109,11 @@ def is_ready():
 def get_reflected_host_info():
     """Allows the requesting host to get some info about itself, such as its IP. Used for troubleshooting."""
     ip = flask.request.headers.get('X-Real-Ip', flask.request.remote_addr)
-    country = module_config['GEOIP'].country_code_by_addr(ip)
+    # country = module_config['GEOIP'].country_code_by_addr(ip)
     return {
         'ip': ip,
         'cookie': flask.request.headers.get('Cookie', ''),
-        'country': country
+        # 'country': country
     }
 
 
@@ -584,33 +584,6 @@ def init():
         })
     config.state['cw_last_message_seq'] = last_wallet_message['_id'] if last_wallet_message else 0
     logger.debug("cw_last_message_seq: {}".format(config.state['cw_last_message_seq']))
-
-    # init GEOIP
-    import pygeoip
-    geoip_data_path = os.path.join(config.data_dir, 'GeoIP.dat')
-
-
-    def download_geoip_data():
-        logger.info("Checking/updating GeoIP.dat ...")
-        download = False
-
-        if not os.path.isfile(geoip_data_path):
-            download = True
-        else:
-            one_week_ago = time.time() - 60 * 60 * 24 * 7
-            file_stat = os.stat(geoip_data_path)
-            if file_stat.st_ctime < one_week_ago:
-                download = True
-
-        if download:
-            logger.info("Downloading GeoIP.dat")
-            # TODO: replace with pythonic way to do this!
-            cmd = "cd '{}'; wget -N -q http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz; gzip -dfq GeoIP.dat.gz".format(config.data_dir)
-            util.subprocess_cmd(cmd)
-        else:
-            logger.info("GeoIP.dat database up to date. Not downloading.")
-    download_geoip_data()
-    module_config['GEOIP'] = pygeoip.GeoIP(geoip_data_path)
 
     if not module_config['SUPPORT_EMAIL']:
         logger.warn("Support email setting not set: To enable, please specify an email for the 'support-email' setting in your counterblockd.conf")
