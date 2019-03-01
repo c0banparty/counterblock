@@ -148,6 +148,13 @@ def serve_api():
         return blockchain.broadcast_tx(signed_tx_hex)
 
     @API.add_method
+    def get_transaction(tx_hash, start_ts=None, end_ts=None, limit=1000):
+        transactions = util.call_jsonrpc_api(
+            "get_transactions", {'filters': [{'field': 'tx_hash', 'op': '==', 'value': tx_hash}, ],
+                                 }, abort_on_error=True)['result']
+        return transactions
+
+    @API.add_method
     def get_raw_transactions(address, start_ts=None, end_ts=None, limit=1000):
         """Gets raw transactions for a particular address
 
