@@ -534,7 +534,7 @@ def parse_issuance(msg, msg_data):
         {'asset': msg_data['asset']}, {'_id': 0, '_history': 0})
     #^ pulls the tracked asset without the _id and history fields. This may be None
 
-    if msg_data['locked']:  # lock asset
+    if msg_data['locked'] and msg_data['levy_type'] == 0:  # lock asset at updated
         assert tracked_asset is not None
         config.mongo_db.tracked_assets.update(
             {'asset': msg_data['asset']},
@@ -588,7 +588,7 @@ def parse_issuance(msg, msg_data):
                 'levy_asset': msg_data['levy_asset'],
                 'levy_number': msg_data['levy_number'],
                 'levy_label': msg_data['levy_label'],
-                'locked': False,
+                'locked': msg_data['locked'],
                 'total_issued': int(msg_data['quantity']),
                 'total_issued_normalized': blockchain.normalize_quantity(msg_data['quantity'], msg_data['divisible']),
                 '_history': []  # to allow for block rollbacks
