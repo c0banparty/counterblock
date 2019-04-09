@@ -16,6 +16,8 @@ COPY docker/modules.conf /root/.config/counterblock/modules.conf
 COPY docker/modules.conf /root/.config/counterblock/modules.testnet.conf
 COPY docker/modules.conf /root/.config/counterblock/modules.regtest.conf
 COPY docker/counterwallet.conf /root/.config/counterblock/counterwallet.conf
+COPY docker/counterwallet.conf /root/.config/counterblock/counterwallet.testnet.conf
+COPY docker/counterwallet.conf /root/.config/counterblock/counterwallet.regtest.conf
 COPY docker/start.sh /usr/local/bin/start.sh
 RUN chmod a+x /usr/local/bin/start.sh
 
